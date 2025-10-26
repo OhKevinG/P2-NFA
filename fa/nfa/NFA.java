@@ -61,7 +61,7 @@ public class NFA implements NFAInterface{
     }
 
     @Override
-    public State getState(String name) {
+    public NFAState getState(String name) { // CHANGED FROM RETURNING STATE TO NFASTATE. DON'T KNOW IF THAT'S HOW WE ARE SUPPOSED TO DO IT OR NOT BUT CAN NOW RUN TESTS
         return null;
     }
 
