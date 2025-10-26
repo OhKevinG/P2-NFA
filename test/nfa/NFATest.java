@@ -9,6 +9,174 @@ import org.junit.Test;
 import fa.nfa.NFA;
 
 public class NFATest {
+
+	// BOUNDARY CASES NEEDED:
+	// NFA WITH 3 AND 4 STATES (WE HAVE 2 AND 5)
+
+	// nfa with 1 state and no final state
+	private NFA nfa00() {
+		NFA nfa = new NFA();
+
+		nfa.addSigma('0');
+
+		assertTrue(nfa.addState("a"));
+		assertTrue(nfa.setStart("a"));
+
+		assertFalse(nfa.setStart("b"));
+		assertFalse(nfa.setFinal("c"));
+		assertFalse(nfa.addState("a"));
+
+		assertTrue(nfa.addTransition("a", Set.of("a"), '0'));
+		assertTrue(nfa.addTransition("a", Set.of("a"), 'e'));
+
+		assertFalse(nfa.addTransition("a", Set.of("a"), '1'));
+		assertFalse(nfa.addTransition("b", Set.of("a"), '0'));
+		assertFalse(nfa.addTransition("a", Set.of("b"), '0'));
+
+		return nfa;
+	}
+
+	@Test
+	public void test00_1() {
+		NFA nfa = nfa00();
+		System.out.println("nfa00 instantiation done");
+	}
+
+	@Test
+	public void test00_2() {
+		NFA nfa = nfa00();
+		assertNotNull(nfa.getState("a"));
+		assertEquals(nfa.getState("a").getName(), "a");
+		//ensures the same object
+		assertEquals(nfa.getState("a"), nfa.getState("a"));
+		assertTrue(nfa.isStart("a"));
+		assertFalse(nfa.isFinal("a"));
+
+
+		System.out.println("nfa00 correctness done");
+	}
+
+	@Test
+	public void test00_3() {
+		NFA nfa = nfa00();
+		assertFalse(nfa.isDFA());
+		System.out.println("nfa00 isDFA done");
+	}
+
+	@Test
+	public void test00_4() {
+		NFA nfa = nfa00();
+		assertEquals(nfa.eClosure(nfa.getState("a")), Set.of(nfa.getState("a")));
+		System.out.println("nfa00 eClosure done");
+	}
+
+	@Test
+	public void test00_5() {
+		NFA nfa = nfa00();
+		assertFalse(nfa.accepts("0"));
+		assertFalse(nfa.accepts("1"));
+		assertFalse(nfa.accepts("00"));
+		assertFalse(nfa.accepts("10"));
+		assertFalse(nfa.accepts("e"));
+		System.out.println("nfa00 accepts done");
+	}
+
+	@Test
+	public void test00_6() {
+		NFA nfa = nfa00();
+		// are copies supposed to be invalid if they are not accepted?
+		assertEquals(nfa.maxCopies("0"), 1); // if so this would be false
+		assertEquals(nfa.maxCopies("1"), 1);
+		assertEquals(nfa.maxCopies("00"), 1);
+		assertEquals(nfa.maxCopies("e"), 1);
+		System.out.println("nfa00 maxCopies done");
+	}
+
+	// nfa with 1 state that is start state and final state
+	private NFA nfa0() {
+		NFA nfa = new NFA();
+
+		nfa.addSigma('0');
+		nfa.addSigma('1');
+
+		assertTrue(nfa.addState("a"));
+		assertTrue(nfa.setStart("a"));
+		assertTrue(nfa.setFinal("a"));
+
+		assertFalse(nfa.setStart("b"));
+		assertFalse(nfa.setFinal("c"));
+		assertFalse(nfa.addState("a"));
+
+		assertTrue(nfa.addTransition("a", Set.of("a"), '0'));
+		assertTrue(nfa.addTransition("a", Set.of("a"), '1'));
+		assertTrue(nfa.addTransition("a", Set.of("a"), 'e'));
+
+		assertFalse(nfa.addTransition("b", Set.of("a"), '0'));
+		assertFalse(nfa.addTransition("a", Set.of("b"), '3'));
+		assertFalse(nfa.addTransition("a", Set.of("b"), '0'));
+		assertFalse(nfa.addTransition("a", Set.of("b"), 'e'));
+
+		return nfa;
+	}
+
+    @Test
+    public void test0_1() {
+        NFA nfa = nfa0();
+        System.out.println("nfa0 instantiation done");
+    }
+
+    @Test
+    public void test0_2() {
+        NFA nfa = nfa0();
+        assertNotNull(nfa.getState("a"));
+        assertEquals(nfa.getState("a").getName(), "a");
+        //ensures the same object
+        assertEquals(nfa.getState("a"), nfa.getState("a"));
+        assertTrue(nfa.isStart("a"));
+        assertTrue(nfa.isFinal("a"));
+
+
+        System.out.println("nfa0 correctness done");
+    }
+
+    @Test
+    public void test0_3() {
+        NFA nfa = nfa0();
+        assertFalse(nfa.isDFA());
+        System.out.println("nfa0 isDFA done");
+    }
+
+    @Test
+    public void test0_4() {
+        NFA nfa = nfa0();
+        assertEquals(nfa.eClosure(nfa.getState("a")), Set.of(nfa.getState("a")));
+        System.out.println("nfa0 eClosure done");
+    }
+
+    @Test
+    public void test0_5() {
+        NFA nfa = nfa0();
+        assertTrue(nfa.accepts("0"));
+        assertTrue(nfa.accepts("1"));
+        assertTrue(nfa.accepts("00"));
+        assertTrue(nfa.accepts("101"));
+        assertTrue(nfa.accepts("e"));
+        assertFalse(nfa.accepts("2"));
+        System.out.println("nfa0 accepts done");
+    }
+
+    @Test
+    public void test0_6() {
+        NFA nfa = nfa0();
+        assertEquals(nfa.maxCopies("0"), 1);
+        assertEquals(nfa.maxCopies("1"), 1);
+        assertEquals(nfa.maxCopies("00"), 1);
+        assertEquals(nfa.maxCopies("101"), 1);
+        assertEquals(nfa.maxCopies("e"), 1);
+        assertEquals(nfa.maxCopies("2"), 1);
+        System.out.println("nfa0 maxCopies done");
+    }
+
 	
 	private NFA nfa1() {
 		NFA nfa = new NFA();
@@ -249,7 +417,7 @@ public class NFATest {
 		assertNotNull(nfa.getState("W"));
 		assertEquals(nfa.getState("N").getName(), "N");
 		assertNull(nfa.getState("Z0"));
-		assertEquals(nfa.getState("I").toStates('1'), Set.of(nfa.getState("I"), nfa.getState("N")));
+		assertEquals(nfa.getState("I").toStates('1'), Set.of(nfa.getState("I"), nfa.getState("N"))); //toStates() appears like its supposed to be the transitions
 		assertTrue(nfa.isStart("W"));
 		assertFalse(nfa.isStart("L"));
 		assertTrue(nfa.isFinal("N"));
