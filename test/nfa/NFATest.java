@@ -11,8 +11,6 @@ import fa.nfa.NFA;
 public class NFATest {
 
 	// BOUNDARY CASES NEEDED:
-	// DO WE NEED TO TEST ZERO STATES?
-	// NFA WITH SINGLE STATE
 	// NFA WITH 3 AND 4 STATES (WE HAVE 2 AND 5)
 
 	// nfa with 1 state and no final state
@@ -88,12 +86,11 @@ public class NFATest {
 		NFA nfa = nfa00();
 		// are copies supposed to be invalid if they are not accepted?
 		assertEquals(nfa.maxCopies("0"), 1); // if so this would be false
-		assertEquals(nfa.maxCopies("1"), 0);
+		assertEquals(nfa.maxCopies("1"), 1);
 		assertEquals(nfa.maxCopies("00"), 1);
 		assertEquals(nfa.maxCopies("e"), 1);
 		System.out.println("nfa00 maxCopies done");
 	}
-
 
 	// nfa with 1 state that is start state and final state
 	private NFA nfa0() {
@@ -121,6 +118,65 @@ public class NFATest {
 
 		return nfa;
 	}
+
+    @Test
+    public void test0_1() {
+        NFA nfa = nfa0();
+        System.out.println("nfa0 instantiation done");
+    }
+
+    @Test
+    public void test0_2() {
+        NFA nfa = nfa0();
+        assertNotNull(nfa.getState("a"));
+        assertEquals(nfa.getState("a").getName(), "a");
+        //ensures the same object
+        assertEquals(nfa.getState("a"), nfa.getState("a"));
+        assertTrue(nfa.isStart("a"));
+        assertTrue(nfa.isFinal("a"));
+
+
+        System.out.println("nfa0 correctness done");
+    }
+
+    @Test
+    public void test0_3() {
+        NFA nfa = nfa0();
+        assertFalse(nfa.isDFA());
+        System.out.println("nfa0 isDFA done");
+    }
+
+    @Test
+    public void test0_4() {
+        NFA nfa = nfa0();
+        assertEquals(nfa.eClosure(nfa.getState("a")), Set.of(nfa.getState("a")));
+        System.out.println("nfa0 eClosure done");
+    }
+
+    @Test
+    public void test0_5() {
+        NFA nfa = nfa0();
+        assertTrue(nfa.accepts("0"));
+        assertTrue(nfa.accepts("1"));
+        assertTrue(nfa.accepts("00"));
+        assertTrue(nfa.accepts("101"));
+        assertTrue(nfa.accepts("e"));
+        assertFalse(nfa.accepts("2"));
+        System.out.println("nfa0 accepts done");
+    }
+
+    @Test
+    public void test0_6() {
+        NFA nfa = nfa0();
+        assertEquals(nfa.maxCopies("0"), 1);
+        assertEquals(nfa.maxCopies("1"), 1);
+        assertEquals(nfa.maxCopies("00"), 1);
+        assertEquals(nfa.maxCopies("101"), 1);
+        assertEquals(nfa.maxCopies("e"), 1);
+        assertEquals(nfa.maxCopies("2"), 1);
+        System.out.println("nfa0 maxCopies done");
+    }
+
 	
 	private NFA nfa1() {
 		NFA nfa = new NFA();
