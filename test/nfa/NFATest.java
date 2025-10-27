@@ -12,6 +12,7 @@ public class NFATest {
 
 	// BOUNDARY CASES NEEDED:
 	// NFA WITH 3 AND 4 STATES (WE HAVE 2 AND 5)
+	// might need and NFA with no transitions
 
 	// nfa with 1 state and no final state
 	private NFA nfa00() {
