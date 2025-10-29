@@ -16,6 +16,7 @@ public class NFA implements NFAInterface{
     public NFA() {
         states  = new LinkedHashSet<>();
         sigma = new LinkedHashSet<Character>();
+        //sigma.add('e');
         finalStates = new LinkedHashSet<State>();
     }
 
@@ -84,7 +85,7 @@ public class NFA implements NFAInterface{
     public boolean addTransition(String fromState, Set<String> toStates, char onSymb) {
 
         // check first if symbol is in alphabet
-        if (!inSigma(onSymb)) return false;
+        if (!inSigma(onSymb) && onSymb != 'e') return false;
         // check if fromState is in states
         if (!inQ(fromState)) return false;
 
@@ -104,7 +105,7 @@ public class NFA implements NFAInterface{
     @Override
     public boolean isDFA() {
         for (NFAState state : states) {
-           if (!state.toStates('e').isEmpty()) {
+           if (!eClosure(state).isEmpty()) {
                return false;
            }
 
@@ -187,12 +188,14 @@ public class NFA implements NFAInterface{
         private String remaining;
 
         public TraceStep(NFAState currentState, String remaining) {
-            currentState = currentState;
-            remaining = remaining;
+            this.currentState = currentState;
+            this.remaining = remaining;
         }
 
         public Set<TraceStep> getNextSteps() {
             Set<TraceStep> nextSteps = new LinkedHashSet<>();
+
+            if (remaining.isEmpty()) return nextSteps;
 
             for (NFAState state : getToState(currentState, remaining.charAt(0))) {
                 nextSteps.add(new TraceStep(state, remaining.substring(1)));
@@ -226,6 +229,11 @@ public class NFA implements NFAInterface{
             } else {
                 return false;
             }
+        }
+
+        @Override
+        public int hashCode() {
+            return (currentState.getName() + remaining).hashCode();
         }
     }
 

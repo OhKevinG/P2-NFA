@@ -22,6 +22,7 @@ public class NFAState extends State {
      * @return Set<NFAState> is the set of states mapped by symb
      */
     public Set<NFAState> toStates(char symb) {
+        if (transitions.get(symb) == null) return Set.of();
         return transitions.get(symb);
     }
 

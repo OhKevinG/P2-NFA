@@ -161,7 +161,8 @@ public class NFATest {
         assertTrue(nfa.accepts("1"));
         assertTrue(nfa.accepts("00"));
         assertTrue(nfa.accepts("101"));
-        assertTrue(nfa.accepts("e"));
+		assertTrue(nfa.accepts(""));
+        assertFalse(nfa.accepts("e"));
         assertFalse(nfa.accepts("2"));
         System.out.println("nfa0 accepts done");
     }
@@ -464,6 +465,81 @@ public class NFATest {
 		assertEquals(nfa.maxCopies("23"), 3);
 		assertEquals(nfa.maxCopies("011#00010#"), 3);
 		System.out.println("nfa1 maxCopies done");
+	}
+
+	// empty NFA
+	private NFA nfa4() {
+		NFA nfa = new NFA();
+
+		nfa.addSigma('0');
+
+		assertTrue(nfa.addState("a"));
+		assertTrue(nfa.setStart("a"));
+
+		assertFalse(nfa.setStart("b"));
+		assertFalse(nfa.setFinal("c"));
+		assertFalse(nfa.addState("a"));
+
+		assertFalse(nfa.addTransition("a", Set.of("a"), '1'));
+		assertFalse(nfa.addTransition("b", Set.of("a"), '0'));
+		assertFalse(nfa.addTransition("a", Set.of("b"), '0'));
+
+		return nfa;
+	}
+
+	@Test
+	public void test4_1() {
+		NFA nfa = nfa4();
+		System.out.println("nfa4 instantiation done");
+	}
+
+	@Test
+	public void test4_2() {
+		NFA nfa = nfa4();
+		assertNotNull(nfa.getState("a"));
+		assertEquals(nfa.getState("a").getName(), "a");
+		//ensures the same object
+		assertEquals(nfa.getState("a"), nfa.getState("a"));
+		assertTrue(nfa.isStart("a"));
+		assertFalse(nfa.isFinal("a"));
+
+		System.out.println("nfa4 correctness done");
+	}
+
+	@Test
+	public void test4_3() {
+		NFA nfa = nfa4();
+		assertFalse(nfa.isDFA());
+		System.out.println("nfa4 isDFA done");
+	}
+
+	@Test
+	public void test4_4() {
+		NFA nfa = nfa4();
+		assertEquals(nfa.eClosure(nfa.getState("a")), Set.of(nfa.getState("a")));
+		System.out.println("nfa4 eClosure done");
+	}
+
+	@Test
+	public void test4_5() {
+		NFA nfa = nfa4();
+		assertFalse(nfa.accepts("0"));
+		assertFalse(nfa.accepts("1"));
+		assertFalse(nfa.accepts("00"));
+		assertFalse(nfa.accepts("10"));
+		assertFalse(nfa.accepts("e"));
+		System.out.println("nfa4 accepts done");
+	}
+
+	@Test
+	public void test4_6() {
+		NFA nfa = nfa4();
+		// are copies supposed to be invalid if they are not accepted?
+		assertEquals(nfa.maxCopies("0"), 1); // if so this would be false
+		assertEquals(nfa.maxCopies("1"), 1);
+		assertEquals(nfa.maxCopies("00"), 1);
+		assertEquals(nfa.maxCopies("e"), 1);
+		System.out.println("nfa4 maxCopies done");
 	}
 
 }
