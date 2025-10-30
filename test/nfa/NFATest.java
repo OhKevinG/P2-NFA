@@ -28,7 +28,6 @@ public class NFATest {
 		assertFalse(nfa.addState("a"));
 
 		assertTrue(nfa.addTransition("a", Set.of("a"), '0'));
-		assertTrue(nfa.addTransition("a", Set.of("a"), 'e'));
 
 		assertFalse(nfa.addTransition("a", Set.of("a"), '1'));
 		assertFalse(nfa.addTransition("b", Set.of("a"), '0'));

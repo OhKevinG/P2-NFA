@@ -34,7 +34,7 @@ public class NFA implements NFAInterface{
     @Override
     public Set<NFAState> eClosure(NFAState s) {
 
-        if(s.toStates('e').isEmpty()) return Set.of();
+        if(s.toStates('e').isEmpty()) return Set.of(s);
 
         Stack<NFAState> stack = new Stack<>();
         Set<NFAState> visited = new LinkedHashSet<>();
