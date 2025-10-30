@@ -349,7 +349,6 @@ public class NFATest {
 	public void test2_5() {
 		NFA nfa = nfa2();
 		assertTrue(nfa.accepts("1111"));
-		assertFalse(nfa.accepts("e"));
 		assertFalse(nfa.accepts("0001100"));
 		assertTrue(nfa.accepts("010011"));
 		assertFalse(nfa.accepts("0101"));

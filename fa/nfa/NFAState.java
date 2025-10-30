@@ -3,6 +3,7 @@ package fa.nfa;
 import fa.State;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,7 +33,14 @@ public class NFAState extends State {
      * @param transitionChar symbol of transition
      */
     public void addTransition(Set<NFAState> states, char transitionChar) {
-        transitions.put(transitionChar, states);
+        Set<NFAState> oldStates = new LinkedHashSet<>();
+        Set<NFAState> newStates = new LinkedHashSet<>();
+        if (transitions.containsKey(transitionChar)) {
+            oldStates = transitions.get(transitionChar);
+        }
+        newStates.addAll(oldStates);
+        newStates.addAll(states);
+        transitions.put(transitionChar, newStates);
     }
 
 

@@ -94,8 +94,7 @@ public class NFA implements NFAInterface{
         for (String s : toStates) {
             if(inQ(s)) transitionSet.add(getState(s));
         }
-        // test if transitionSet is empty to make sure that toStates is valid
-        if (transitionSet.isEmpty()) return false;
+        if (transitionSet.size() != toStates.size()) return false;
 
         getState(fromState).addTransition(transitionSet, onSymb);
 
