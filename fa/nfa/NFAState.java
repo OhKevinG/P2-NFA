@@ -11,7 +11,11 @@ public class NFAState extends State {
 
     private Map<Character, Set<NFAState>> transitions;
 
-    // constructor
+    /**
+     * The NFAState contructor requires a name for the state be provided. Then it calls the parent State constructor
+     * and instantiates the map δ (transitions).
+     * @param name
+     */
     public NFAState(String name) {
         super(name);
         transitions = new HashMap<>();

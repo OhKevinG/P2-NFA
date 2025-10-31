@@ -12,11 +12,12 @@ public class NFA implements NFAInterface{
     private NFAState start;
     private Set<State> finalStates;
 
-    // constructor
+    /**
+     * Constructor for NFA. The constructor instantiates the Sets Q (states), Σ (alphabet), and F (final state)
+     */
     public NFA() {
         states  = new LinkedHashSet<>();
         sigma = new LinkedHashSet<Character>();
-        //sigma.add('e');
         finalStates = new LinkedHashSet<State>();
     }
 
@@ -264,14 +265,23 @@ public class NFA implements NFAInterface{
     }
 
     // helper functions
-    // takes stateName and uses Set contains method check if state is in states
+    /**
+     * takes stateName and uses Set contains method check if state is in states
+     * @param stateName
+     * @return boolean if state with name stateName is in Q (states)
+     */
     private boolean inQ(String stateName) {
         NFAState state = new NFAState(stateName);
         return states.contains(state);
     }
 
     // checks if sigma contains char
-    // takes symbol and uses Set contains method check if symbol is in alphabet
+
+    /**
+     * takes symbol and uses Set contains method check if symbol is in alphabet
+     * @param symbol
+     * @return boolean if symbol char is in Σ (alphabet)
+     */
     private boolean inSigma(char symbol) {
         return sigma.contains(symbol);
     }

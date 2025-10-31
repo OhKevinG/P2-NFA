@@ -6,36 +6,34 @@
 
 ## Overview
 
-Concisely explain what the program does. If this exceeds a couple of
-sentences, you're going too far. Generally you should be pulling this
-right from the project specification. Please don't just cut and
-paste, but paraphrase what is stated in the project specification.
+P2-NFA can create an NFA based on states and an alphabet that can be provided by a programmer.
 
 ## Reflection
 
-Write a brief (2-3 paragraph) reflection describing your experience with this
-project. Answer the following questions (but feel free to add other insights):
-- What worked well and what was a struggle?
-- What concepts still aren't quite clear?
-- What techniques did you use to make your code easy to debug and modify?
-- What would you change about your design process?
-- If you could go back in time, what would you tell yourself about doing this project?
+This project was not too difficult to get started and implement the basic methods as there was a lot of similarities
+between this and the previous project. However, implementing some of the methods unique to an NFA was a little bit of a
+challenge. The debug functionality in IntelliJ makes debugging so much easier. Being able to slowly walk
+through each test and see what is going wrong is invaluable compared to just examining code. Another thing that both of
+us could improve is better documentation. When we implement methods seperately it can be hard to tell exactly how a
+method functions with no documentation which makes things much harder. 
+
+We did well with the test driven development this time. Last time we wrote tests before writing other code, but we just
+implemented all the methods and then started testing. This made debugging take a lot longer, and we spent a long time 
+trying to fix things to get tests to pass. This time, after writing a few tests, we implemented one method, then tested,
+then implemented another method, and tested and so on. This made debugging go by a lot faster, and we really only got
+stuck debugging from a few easy fixes.
 
 ## Compiling and Using
 
-This section should tell the user how to compile your code.  It is
-also appropriate to instruct the user how to use your code. Does your
-program require user input? If so, what does your user need to know
-about it to use it as quickly as possible?
+To run tests, use IntelliJ IDE and select the run button.
+
+To run tests on onyx use the following commands:
+
+[you@onyx]$ javac -cp .:/usr/share/java/junit.jar ./test/nfa/NFATest.java
+
+[you@onyx]$ java -cp .:/usr/share/java/junit.jar:/usr/share/java/hamcrest/core.jar
+org.junit.runner.JUnitCore test.nfa.NFATest
 
 ## Sources used
 
-If you used any sources outside of the lecture notes, class lab files,
-or text book you need to list them here. If you looked something up on
-stackoverflow.com and fail to cite it in this section it will be
-considered plagiarism and be dealt with accordingly. So be safe CITE!
-
-----------
-This README template is using Markdown. To preview your README output,
-you can copy your file contents to a Markdown editor/previewer such
-as [https://stackedit.io/editor](https://stackedit.io/editor).
+No external sources used.
