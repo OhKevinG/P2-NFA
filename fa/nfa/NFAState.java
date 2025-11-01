@@ -7,6 +7,11 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+* Creates a state for an NFA.
+* The state includes outgoing transitions and methods for interacting with them.
+* @author evanlauer, kevingutierrez
+*/
 public class NFAState extends State {
 
     private Map<Character, Set<NFAState>> transitions;

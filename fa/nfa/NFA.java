@@ -4,6 +4,20 @@ import fa.State;
 
 import java.util.*;
 
+/**
+ * Creates a Non-deterministic Finite Automata (NFA)
+ * defined by 5-tuple:
+ * Q (set of states)
+ * Sigma (alphabet)
+ * delta (transition table)
+ * q0 (initial state)
+ * F (set of final states)
+ *
+ * Contains methods for interacting with the NFA and/or 5-tuple
+ *
+ * @author evanlauer, kevingutierrez
+ */
+
 public class NFA implements NFAInterface{
 
     // instance variables
@@ -183,15 +197,32 @@ public class NFA implements NFAInterface{
         return false;
     }
 
+    /**
+    * A TraceStep is a data structure representing one step or unit of a trace through an NFA.
+    * It includes a state that is associated with a string that includes all of the remaining,
+    * unprocessed characters of the string being traced. The state represents the current state
+    * of the machine in that branch of the trace.
+    */
     private class TraceStep {
         private NFAState currentState;
         private String remaining;
 
+        /**
+        * Creates a TraceStep
+        * @param currentState the current state of the machine at this step in the trace
+        * @param remaining the part of the string that has not yet been traced
+        */
         public TraceStep(NFAState currentState, String remaining) {
             this.currentState = currentState;
             this.remaining = remaining;
         }
 
+        /**
+        * Follows the next character in the string and produces a set of all of the possible
+        * next TraceSteps that following the transitions related to that character could produce.
+        * Uses getToState() to find the next states. Does not include epsilon transitions.
+        * @return A set of the possible TraceSteps that following the next character could produce.
+        */
         public Set<TraceStep> getNextSteps() {
             Set<TraceStep> nextSteps = new LinkedHashSet<>();
 
@@ -204,6 +235,12 @@ public class NFA implements NFAInterface{
             return nextSteps;
         }
 
+        /**
+        * Follows all of the epsilon transitions related to the state in this TraceStep
+        * and the epsilon transitions of the resulting states and so on to get all TraceSteps
+        * with states produced from the eClosures() method. No characters are consumed.
+        * @return all TraceSteps reachable by epsilon transitions without consuming a character
+        */
         public Set<TraceStep> getEpsilonClosures() {
             Set<TraceStep> epsilonClosures = new LinkedHashSet<>();
 
@@ -214,10 +251,16 @@ public class NFA implements NFAInterface{
             return epsilonClosures;
         }
 
+        /**
+        * @return the state that the machine is in in this trace step.
+        */
         public NFAState getCurrentState() {
             return currentState;
         }
 
+        /**
+        * @return The string containing the remaining characters of the string being traced.
+        */
         public String getRemaining() {
             return remaining;
         }
